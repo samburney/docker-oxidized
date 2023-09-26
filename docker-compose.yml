@@ -1,0 +1,27 @@
+services:
+  oxidized:
+    restart: "unless-stopped"
+    image: "${DOCKER_NAMESPACE}/oxidized:${OXIDIZED_BUILD}-msmtpd"
+    build:
+      context: '.'
+    command: 'bash -c "rm /tmp/oxidized.pid ; /sbin/my_init"'
+    env_file:
+      - '.env'
+    volumes:
+      - "./data/oxidized:/home/oxidized/.config/oxidized"
+    ports:
+      - '8888:8888/tcp'
+
+#  msmtpd:
+#    image: 'crazymax/msmtpd:latest'
+#    restart: 'unless-stopped'
+#    environment:
+#      - SMTP_HOST=
+#      - SMTP_PORT=465
+#      - SMTP_TLS=on
+#      - SMTP_STARTTLS=off
+#      - SMTP_TLS_CHECKCERT=on
+#      - SMTP_AUTH=on
+#      - SMTP_USER=
+#      - SMTP_PASSWORD=
+#      - SMTP_FROM=oxidized-noreply@domain.com
